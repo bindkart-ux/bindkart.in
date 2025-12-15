@@ -1,8 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bindkart Products</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Reset and basics */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f8;
+      color: #333;
+    }
+
+    header {
+      background: #0b74de;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin-top: 6px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .customer-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .customer-box input,
+    .customer-box textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product:hover {
+      transform: translateY(-6px);
+    }
+
+    .product img {
+      width: 100%;
+      height: 220px;
+      object-fit: contain; /* show full image */
+      border-radius: 10px;
+      margin-bottom: 15px;
+      background: #fafafa;
+    }
+
+    .product h3 {
+      font-size: 20px;
+      margin: 0 0 8px 0;
+      font-weight: 600;
+    }
+
+    .product p.description {
+      font-size: 15px;
+      margin: 0 0 12px 0;
+      color: #555;
+      flex-grow: 1;
+    }
+
+    .price {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .price .old {
+      text-decoration: line-through;
+      color: #b0b0b0;
+      font-size: 14px;
+      margin-right: 12px;
+    }
+
+    .price .new {
+      color: #2e7d32;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 0;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: auto;
+    }
+
+    button:hover {
+      background: #1565c0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      color: #666;
+      margin-top: 30px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .product img {
+        height: 180px;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -16,13 +164,13 @@
   <div class="customer-box">
     <h3>Customer Details</h3>
 
-    <input id="custName" placeholder="Your Name">
-    <input id="custPhone" placeholder="Phone Number">
+    <input id="custName" placeholder="Your Name" />
+    <input id="custPhone" placeholder="Phone Number" />
     <textarea id="custAddress" placeholder="Delivery Address"></textarea>
 
-    <p style="font-size:13px;margin-top:10px;">
-      Payment: <b>UPI only</b><br>
-      UPI ID: <b>BINDKARTENTERPRISES.10022042@csbpay</b><br>
+    <p style="font-size:13px; margin-top:10px;">
+      Payment: <b>UPI only</b><br />
+      UPI ID: <b>BINDKARTENTERPRISES.10022042@csbpay</b><br />
       (No Cash on Delivery)
     </p>
   </div>
@@ -46,13 +194,12 @@ fetch("https://script.google.com/macros/s/AKfycbyxNmTT5Dhdy3ndSPjAcr42vzpmiupws3
 
       container.innerHTML += `
         <div class="product">
-          <img src="${p.image}">
+          <img src="${p.image}" alt="${p.name}" />
           <h3>${p.name}</h3>
-          <p>${p.description}</p>
+          <p class="description">${p.description}</p>
           <p class="price">
-            <span class="old">₹${p.price}</span>
-            &nbsp;
-            <span class="new">₹${p.offerPrice}</span>
+            <span class="old">₹${Number(p.price).toLocaleString('en-IN')}</span>
+            <span class="new">₹${Number(p.offerPrice).toLocaleString('en-IN')}</span>
           </p>
           <button onclick="orderProduct('${p.name}','${p.offerPrice}')">
             Order on WhatsApp
@@ -63,9 +210,9 @@ fetch("https://script.google.com/macros/s/AKfycbyxNmTT5Dhdy3ndSPjAcr42vzpmiupws3
   });
 
 function orderProduct(productName, price) {
-  const name = document.getElementById("custName").value;
-  const phone = document.getElementById("custPhone").value;
-  const address = document.getElementById("custAddress").value;
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const address = document.getElementById("custAddress").value.trim();
 
   if (!name || !phone || !address) {
     alert("Please fill all customer details");
@@ -75,7 +222,7 @@ function orderProduct(productName, price) {
   const message =
 `New Order Request
 Product: ${productName}
-Price: Rs: ${price}
+Price: ₹${price}
 
 Customer Name: ${name}
 Phone: ${phone}
@@ -85,8 +232,7 @@ UPI ID: BINDKARTENTERPRISES.10022042@csbpay
 (Please complete payment and share screenshot)`;
 
   window.open(
-    "https://wa.me/918904167321?text=" +
-    encodeURIComponent(message)
+    "https://wa.me/918904167321?text=" + encodeURIComponent(message)
   );
 }
 </script>
