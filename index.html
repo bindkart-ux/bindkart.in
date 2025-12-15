@@ -67,9 +67,9 @@ fetch("https://script.google.com/macros/s/AKfycbyxNmTT5Dhdy3ndSPjAcr42vzpmiupws3
           <h3>${p.name}</h3>
           <p>${p.description}</p>
           <p class="price">
-            <span class="old">₹${p.price}</span>
+            <span class="old">Rs: ${p.price}</span>
             &nbsp;
-            <span class="new">₹${p.offerPrice}</span>
+            <span class="new">Rs: ${p.offerPrice}</span>
 			<button onclick="orderProduct('${p.name}','${p.offerPrice}')">
 				Order on WhatsApp
 			</button>
@@ -92,7 +92,7 @@ fetch("https://script.google.com/macros/s/AKfycbyxNmTT5Dhdy3ndSPjAcr42vzpmiupws3
   const message =
 `New Order Request
 Product: ${productName}
-Price: ₹${price}
+Price: Rs: ${price}
 
 Customer Name: ${name}
 Phone: ${phone}
@@ -111,3 +111,4 @@ UPI ID: BINDKARTENTERPRISES.10022042@csbpay
 
 </body>
 </html>
+
